@@ -1,0 +1,89 @@
+POST http://127.0.0.1:8000/api/signup/
+Content-Type: application/json
+
+{"name":"tauqeer","username": "amar.tauqeer@hotmail.com", "password":"amar", "email":"amar.tauqeer@hotmil.com"}
+
+###
+
+POST http://127.0.0.1:8000/api/login/
+Content-Type: application/json
+
+{"username": "amar.tauqeer@hotmail.com", "password":"amar"}
+
+###
+
+GET http://127.0.0.1:8000/api/test-token 
+Content-Type: application/json 
+Authorization: Token 6a399ce6a97785bc64eaaa4d3be04583c5dc8cc5
+
+###
+
+POST http://127.0.0.1:8000/api/category-create/
+Content-Type: application/json 
+Authorization: Token 6a399ce6a97785bc64eaaa4d3be04583c5dc8cc5
+
+
+{"category_name": "Test1", "created_by":1}
+
+###
+
+GET http://127.0.0.1:8000/api/category-list/
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+###
+
+GET http://127.0.0.1:8000/api/category/8
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+###
+
+PUT http://127.0.0.1:8000/api/category-update/
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+
+{"category_id":3,"category_name": "Desktop updated", "created_by":1}
+
+###
+
+DELETE http://127.0.0.1:8000/api/category-delete/3
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+###
+
+POST http://127.0.0.1:8000/api/post-create/
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+
+{"post_title": "Post1","post_description": "Post1 description","category":1, "created_by":1}
+
+###
+
+GET http://127.0.0.1:8000/api/post-list/
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+###
+
+GET http://127.0.0.1:8000/api/post/4
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+###
+
+PUT http://127.0.0.1:8000/api/post-update/
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+
+{"post_id":4,"post_title": "Post1 updated","post_description": "Post1 description updated","category":1, "created_by":1}
+
+###
+
+DELETE http://127.0.0.1:8000/api/post-delete/4
+Content-Type: application/json 
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
