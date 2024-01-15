@@ -1,7 +1,7 @@
 POST http://127.0.0.1:8000/api/signup/
 Content-Type: application/json
 
-{"name":"tauqeer","username": "amar.tauqeer@hotmail.com", "password":"amar", "email":"amar.tauqeer@hotmil.com"}
+{"name":"amar tauqeer","username": "amar.tauqeer@wur.nl", "password":"amar", "email":"amar.tauqeer@wur.nl"}
 
 ###
 
@@ -29,7 +29,7 @@ Authorization: Token 6a399ce6a97785bc64eaaa4d3be04583c5dc8cc5
 
 GET http://127.0.0.1:8000/api/category-list/
 Content-Type: application/json 
-Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+Authorization: Token 6a399ce6a97785bc64eaaa4d3be04583c5dc8cc5
 
 ###
 
@@ -66,6 +66,13 @@ Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
 GET http://127.0.0.1:8000/api/post-list/
 Content-Type: application/json 
 Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
+###
+
+GET http://127.0.0.1:8000/api/post-list/category/1
+Content-Type: application/json
+Authorization: Token 73cc21053e649fb17516379220f7823f4767873f
+
 
 ###
 
