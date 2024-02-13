@@ -1,4 +1,6 @@
 from django.contrib.auth import logout
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from django.contrib.auth.decorators import permission_required
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
@@ -10,7 +12,7 @@ from rest_framework.authtoken.models import Token
 from .models import User, Category, Post, Comment, Reply
 from django.shortcuts import get_object_or_404
 
-
+@swagger_auto_schema(methods=['post'], request_body=UserSerializer, tags=["Account"])
 @api_view(['POST'])
 def login(requst):
     user = get_object_or_404(User, username=requst.data["username"])
@@ -20,7 +22,7 @@ def login(requst):
     serializer = UserSerializer(instance=user)
     return Response({"token": token.key, "user": serializer.data})
 
-
+@swagger_auto_schema(methods=['post'], request_body=UserSerializer, tags=["Account"])
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data=request.data)
@@ -33,14 +35,14 @@ def signup(request):
         return Response({"token": token.key, "user": serializer.data})
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Account"])
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(requst):
     return Response(requst.user, status=status.HTTP_200_OK)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Account"])
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, TokenAuthentication])
 # @permission_classes([IsAuthenticated])
@@ -49,7 +51,7 @@ def get_users(request):
     serializer = UserSerializer(users, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Account"])
 @api_view(['GET'])
 def get_logout(requst):
     logout(requst)
@@ -58,7 +60,7 @@ def get_logout(requst):
 
 """======================Category=============================="""
 
-
+@swagger_auto_schema(methods=['post'], request_body=CategorySerializer, tags=["Category"])
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -73,6 +75,7 @@ def category_create(request):
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
 
+@swagger_auto_schema(methods=['get'], tags=["Category"])
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, TokenAuthentication])
 # @permission_classes([IsAuthenticated])
@@ -85,7 +88,7 @@ def category_list(request):
 
 # return Response("You don't have permission for this action", status=status.HTTP_200_OK)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Category"])
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -99,6 +102,7 @@ def category_byid(request, id):
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
 
+@swagger_auto_schema(methods=['put'], request_body=CategorySerializer, tags=["Category"])
 @api_view(['PUT'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -113,7 +117,7 @@ def category_update(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
-
+@swagger_auto_schema(methods=['delete'], tags=["Category"])
 @api_view(['DELETE'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -127,7 +131,7 @@ def category_delete(request, id):
 
 """======================Post=============================="""
 
-
+@swagger_auto_schema(methods=['post'], request_body=PostSerializer, tags=["Post"])
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -140,7 +144,7 @@ def post_create(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Post"])
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, TokenAuthentication])
 # @permission_classes([IsAuthenticated])
@@ -154,6 +158,7 @@ def post_list(request):
 # return Response("You don't have permission for this action", status=status.HTTP_200_OK)
 
 
+@swagger_auto_schema(methods=['get'], tags=["Post"])
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, TokenAuthentication])
 # @permission_classes([IsAuthenticated])
@@ -167,6 +172,7 @@ def post_list_by_category(request, id):
 
 # return Response("You don't have permission for this action", status=status.HTTP_200_OK)
 
+@swagger_auto_schema(methods=['get'], tags=["Post"])
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, TokenAuthentication])
 # @permission_classes([IsAuthenticated])
@@ -181,7 +187,7 @@ def post_byid(request, id):
 
 # return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
-
+@swagger_auto_schema(methods=['patch'], request_body=PostSerializer, tags=["Post"])
 @api_view(['PATCH'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -196,6 +202,7 @@ def post_update(request):
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
 
+@swagger_auto_schema(methods=['delete'], tags=["Post"])
 @api_view(['DELETE'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -209,7 +216,7 @@ def post_delete(request, id):
 
 """======================Comment=============================="""
 
-
+@swagger_auto_schema(methods=['post'], request_body=CommentSerializer, tags=["Comment"])
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -222,7 +229,7 @@ def comment_create(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Comment"])
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, TokenAuthentication])
 # @permission_classes([IsAuthenticated])
@@ -232,7 +239,7 @@ def comment_list(request):
     serializer = CommentSerializer(comments, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Comment"])
 @api_view(['GET'])
 def comment_byid(request, id):
     comment = Comment.objects.filter(comment_id=id).first()
@@ -241,7 +248,7 @@ def comment_byid(request, id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response("Not found", status=status.HTTP_404_NOT_FOUND)
 
-
+@swagger_auto_schema(methods=['put'], request_body=CommentSerializer, tags=["Comment"])
 @api_view(['PUT'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -255,7 +262,7 @@ def comment_update(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
-
+@swagger_auto_schema(methods=['delete'], tags=["Comment"])
 @api_view(['DELETE'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -269,7 +276,7 @@ def comment_delete(request, id):
 
 """======================Reply=============================="""
 
-
+@swagger_auto_schema(methods=['post'], request_body=ReplySerializer, tags=["Reply"])
 @api_view(['POST'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -282,7 +289,7 @@ def reply_create(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Reply"])
 @api_view(['GET'])
 # @authentication_classes([SessionAuthentication, TokenAuthentication])
 # @permission_classes([IsAuthenticated])
@@ -292,7 +299,7 @@ def reply_list(request):
     serializer = ReplySerializer(replies, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-
+@swagger_auto_schema(methods=['get'], tags=["Reply"])
 @api_view(['GET'])
 def reply_byid(request, id):
     reply = Reply.objects.filter(reply_id=id).first()
@@ -301,7 +308,7 @@ def reply_byid(request, id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response("Not found", status=status.HTTP_404_NOT_FOUND)
 
-
+@swagger_auto_schema(methods=['put'], request_body=ReplySerializer, tags=["Reply"])
 @api_view(['PUT'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -315,7 +322,7 @@ def reply_update(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     return Response("You don't have permission for this action", status=status.HTTP_403_FORBIDDEN)
 
-
+@swagger_auto_schema(methods=['delete'], tags=["Reply"])
 @api_view(['DELETE'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])

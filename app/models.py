@@ -31,6 +31,12 @@ class Category(models.Model):
     def __str__(self):
         return self.category_name
 
+# class CategoryUpdate(models.Model):
+#     category_id = models.IntegerField(null=False)
+#     category_name = models.CharField(max_length=255)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
+#     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Post(models.Model):
     post_id = models.AutoField(primary_key=True)

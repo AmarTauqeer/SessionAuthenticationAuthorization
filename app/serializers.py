@@ -27,6 +27,11 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# class CategoryUpdateSerializer(serializers.ModelSerializer):
+#     class Meta(object):
+#         model = CategoryUpdate
+#         fields = '__all__'
+
 class PostSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = Post
