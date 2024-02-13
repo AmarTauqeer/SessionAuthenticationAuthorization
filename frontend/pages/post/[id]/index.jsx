@@ -7,12 +7,9 @@ import { toast } from "sonner";
 import { useParams } from "next/navigation";
 const PostEdit = () => {
   const router = useRouter();
-  const param = useParams();
   let post_id = 0;
-  if (param) {
-    const { id } = useParams();
-    post_id = id;
-  }
+  const { id } = useParams() || 0;
+  post_id = id;
   const [valueDate, setValueDate] = useState(new Date());
 
   const [categoryData, setCategoryData] = useState([]);
@@ -71,37 +68,35 @@ const PostEdit = () => {
     }
   };
 
-  const fetchCategory = async () => {
-    const response = await fetch(`${url}/api/category-list/`);
-    const res = await response.json();
-    setCategoryData(res);
-  };
-
-  const fetchPostById = async () => {
-    const response = await fetch(`${url}/api/post/${post_id}`, {
-      method: "GET",
-      headers: {
-        AUTHORIZATION: `Token ${userInfo.token}`,
-      },
-    });
-    const res = await response.json();
-    console.log(res);
-    setValue("post_title", res.post_title);
-    setValue("post_description", res.post_description);
-    setValue("category", res.category);
-    setValue("created_by", res.created_by);
-    setValue("created_at", res.created_at);
-    setValue("post_id", res.post_id);
-
-    setPostData(res);
-  };
-
   useEffect(() => {
-    if (post_id != 0) {
+    if (post_id != 0 && userInfo != undefined) {
+      const fetchPostById = async () => {
+        const response = await fetch(`${url}/api/post/${post_id}`, {
+          method: "GET",
+          headers: {
+            AUTHORIZATION: `Token ${userInfo.token}`,
+          },
+        });
+        const res = await response.json();
+        console.log(res);
+        setValue("post_title", res.post_title);
+        setValue("post_description", res.post_description);
+        setValue("category", res.category);
+        setValue("created_by", res.created_by);
+        setValue("created_at", res.created_at);
+        setValue("post_id", res.post_id);
+
+        setPostData(res);
+      };
       fetchPostById();
     }
+    const fetchCategory = async () => {
+      const response = await fetch(`${url}/api/category-list/`);
+      const res = await response.json();
+      setCategoryData(res);
+    };
     fetchCategory();
-  }, []);
+  }, [post_id]);
 
   return (
     <>
@@ -111,7 +106,9 @@ const PostEdit = () => {
             <h1 className="font-semibold text-md flex justify-center items-center mt-5 mb-5 md:text-xl">
               Post Update
             </h1>
-            <span className="font-semibold px-2 py-2 md:px-0 md:my-0">Post Tile</span>
+            <span className="font-semibold px-2 py-2 md:px-0 md:my-0">
+              Post Tile
+            </span>
             <div className="flex items-center">
               <input
                 type="text"
@@ -128,7 +125,9 @@ const PostEdit = () => {
                 "Post title is required"}
             </div>
             <div className="flex flex-col mt-6">
-              <span className="font-semibold px-2 py-2 md:px-0 md:my-0">Category</span>
+              <span className="font-semibold px-2 py-2 md:px-0 md:my-0">
+                Category
+              </span>
               <div className="ml-2 md:ml-0">
                 <select
                   className="px-2 py-2 outline-none border w-80 md:w-96"
@@ -152,7 +151,9 @@ const PostEdit = () => {
               <div className="text-rose-400">{errors.category?.message}</div>
             </div>
             <div className="flex flex-col mt-6">
-              <span className="px-2 py-2 font-semibold md:px-0 md:my-0">Post Content</span>
+              <span className="px-2 py-2 font-semibold md:px-0 md:my-0">
+                Post Content
+              </span>
               <div className="ml-2 md:ml-0">
                 <textarea
                   rows={10}

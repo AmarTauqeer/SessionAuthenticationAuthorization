@@ -24,42 +24,6 @@ const ReplyList = ({ comment_id, userInfo }) => {
     },
   });
 
-  const fetchReplies = async (id) => {
-    let dataArray = [];
-    const response = await fetch(`${url}/api/reply-list/`);
-    const res = await response.json();
-    if (res.length > 0) {
-      const filterReplies = res.filter((r) => r.comment == id);
-      for (let i = 0; i < filterReplies.length; i++) {
-        const element = filterReplies[i];
-        let createdBy = "";
-        let users = [];
-        users = await getUsers();
-
-        if (users.length > 0) {
-          createdBy = await users.filter((u) => {
-            if (u.id == element.created_by) {
-              return u.first_name;
-            }
-          });
-        }
-        let data = {
-          reply_id: element.reply_id,
-          reply_text: element.reply_text,
-          created_at: element.created_at,
-          created_by: createdBy[0].first_name,
-          like:element.like,
-        };
-        dataArray.push(data);
-      }
-      if (dataArray.length > 0) {
-        setReplies(dataArray);
-      }
-    } else {
-      setReplies([]);
-    }
-  };
-
   const getUsers = async () => {
     const response = await fetch(`${url}/api/users/`, {
       method: "GET",
@@ -73,11 +37,46 @@ const ReplyList = ({ comment_id, userInfo }) => {
 
   useEffect(() => {
     if (comment_id != undefined) {
+      const fetchReplies = async (id) => {
+        let dataArray = [];
+        const response = await fetch(`${url}/api/reply-list/`);
+        const res = await response.json();
+        if (res.length > 0) {
+          const filterReplies = res.filter((r) => r.comment == id);
+          for (let i = 0; i < filterReplies.length; i++) {
+            const element = filterReplies[i];
+            let createdBy = "";
+            let users = [];
+            users = await getUsers();
+
+            if (users.length > 0) {
+              createdBy = await users.filter((u) => {
+                if (u.id == element.created_by) {
+                  return u.first_name;
+                }
+              });
+            }
+            let data = {
+              reply_id: element.reply_id,
+              reply_text: element.reply_text,
+              created_at: element.created_at,
+              created_by: createdBy[0].first_name,
+              like: element.like,
+            };
+            dataArray.push(data);
+          }
+          if (dataArray.length > 0) {
+            setReplies(dataArray);
+          }
+        } else {
+          setReplies([]);
+        }
+      };
       fetchReplies(comment_id);
     }
   }, [comment_id]);
 
-  const onSubmit = async (data,e) => {
+  const onSubmit = async (data, e) => {
     e.preventDefault();
     let dateISO = valueDate.toISOString();
 
@@ -155,8 +154,8 @@ const ReplyList = ({ comment_id, userInfo }) => {
         </div>
       )}
       {replies.length > 0 &&
-        replies.map((c) => (
-          <div className="flex justify-start w-full items-center">
+        replies.map((c,index) => (
+          <div className="flex justify-start w-full items-center" key={index}>
             <div className="flex flex-col md:flex-row justify-center items-center px-4">
               <div className="mr-6">{c.created_by}</div>
               <div>{moment(c.created_at).format("MMM DD, YYYY")}</div>

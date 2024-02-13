@@ -75,7 +75,7 @@ export default function Login() {
               </div>
               <div className="flex flex-col items-center mt-5 mb-3">
                 <div className="flex">
-                  <div className="text-sm mr-2">Don't have an account</div>
+                  <div className="text-sm mr-2">Don&rsquo;t have an account</div> 
                   <div>
                     <Link
                       className="flex justify-end text-sm underline text-blue-600"
