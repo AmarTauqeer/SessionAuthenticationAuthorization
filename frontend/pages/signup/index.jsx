@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { toast } from "sonner";
 
 export default function Signup() {
+  const url = process.env.NEXT_PUBLIC_BASEURL;
   const [email, setEmail] = useState("amar.tauqeer@hotmail.com");
   const [name, setName] = useState("tauqeer");
   const [password, setPassword] = useState("tauqeer");
@@ -19,32 +20,31 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`http://127.0.0.1:8000/account/register`, {
+    const res = await fetch(`${url}/api/signup/`, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-      credentials: "include",
+      // credentials: "include",
       body: JSON.stringify({
         email,
         name,
         password,
         confirm_password: rePassword,
         username: email,
+        first_name:name,
       }),
     });
-    console.log(res.status);
-    if (res.status == 400) {
-      toast.error("Please fill all the fields");
+    // console.log(res);
+    if (await res.status == 400) {
+      toast.error("Bad request");
       return false;
     }
     const response = await res.json();
-
-    if (response.email && response.email !== undefined) {
-      if (response.email[0] === "user with this email already exists.") {
-        toast.warning("user with this email already exists.");
-        return false;
-      }
+    // console.log(response)
+    const status = await res.status
+    console.log(status)
+    if (status==200) {
       setEmail("");
       setName("");
       setPassword("");
@@ -52,6 +52,7 @@ export default function Signup() {
       // setMessage("An email for activation is sent to "+email)
       router.push("/login");
     }
+    
   };
 
   return (
