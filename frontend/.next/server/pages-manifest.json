@@ -1,1 +1,0 @@
-{"/_app":"pages/_app.js","/_document":"pages/_document.js","/api/hello":"pages/api/hello.js","/category":"pages/category.html","/comment":"pages/comment.html","/":"pages/index.html","/login":"pages/login.html","/post/[id]":"pages/post/[id].html","/post/create":"pages/post/create.html","/signup":"pages/signup.html","/_error":"pages/_error.js","/404":"pages/404.html"}
