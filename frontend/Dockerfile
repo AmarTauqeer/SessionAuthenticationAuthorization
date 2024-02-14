@@ -11,8 +11,8 @@ WORKDIR /frontend
 # COPY styles ./styles
 COPY package.json ./
 
-RUN npm install
+RUN npm install --production --ignore-scripts
 
 COPY . .
-
-CMD ["npm", "run", "dev"]
+RUN npm run build
+CMD ["npm", "start"]
